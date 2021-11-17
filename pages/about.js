@@ -6,9 +6,8 @@ import imageN from '../components/editorjs-render/image'
 
 import Link from 'next/link'
 
-//import styles from '../styles/Home.module.css'
 
-const rendererConfig = { //maybe new component with all this and Blocks and imageN
+const rendererConfig = { //create new component with all this and Blocks and imageN
     image: {
         className: "hola",
         // actionsClassNames: {
@@ -19,11 +18,11 @@ const rendererConfig = { //maybe new component with all this and Blocks and imag
     }
 }
 
-export default function Home({ data }) {
+export default function About({ data }) {
     return (
         <div>
-            <Link href="/edit/index">
-                <a><button><h3>Go to Editor mode</h3></button></a>
+            <Link href="/admin">
+                <a><button><h3>Admin Mode</h3></button></a>
             </Link>
             <br />
             {data &&
@@ -41,7 +40,7 @@ export default function Home({ data }) {
 }
 
 export async function getStaticProps() {
-    const route = path.join(process.cwd(), 'data', 'index.json')
+    const route = path.join(process.cwd(), 'data', 'about.json')
     const data = await fs.readFile(route, 'utf8')
     return {
         props: { data },
