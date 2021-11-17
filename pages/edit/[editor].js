@@ -60,12 +60,20 @@ function AdminHome({ oldData }) {
 }
 
 export async function getServerSideProps(context) {
-    const fileName = context.params.editor + '.json'
-    const route = path.join(process.cwd(), 'data', fileName)
-    const oldData = await fs.readFile(route, 'utf8')
-    return {
-        props: { oldData },
+    try {
+        const fileName = context.params.editor + '.json'
+        const route = path.join(process.cwd(), 'data', fileName)
+        const oldData = await fs.readFile(route, 'utf8')
+        return {
+            props: { oldData },
+        }
+    } catch (err) {
+        console.error(err);
+        return {
+            notFound: true,
+        }
     }
 }
+
 
 export default AdminHome
