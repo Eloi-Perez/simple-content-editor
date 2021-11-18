@@ -23,7 +23,7 @@ function AdminHome({ oldData }) {
         };
     }, []);
     const handleRouteChange = (url) => {
-        let result = window.confirm('Are you sure you want to continue, unsaved data will be lost');
+        let result = window.confirm('Are you sure you want to continue, unsaved data will be lost' + '\n' + 'OK to continue, Cancel to stay on this page');
         if (!result) {
             // console.error('throwing')
             // router.replace(router.asPath, undefined, { shallow: true })
