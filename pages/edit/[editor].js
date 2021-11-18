@@ -16,6 +16,21 @@ function AdminHome({ oldData }) {
     let [editorInstance, setEditorInstance] = useState({}) /* to get the instance of editor.Js */
     const [editorData, setData] = useState(JSON.parse(oldData)) /* to store editorjs data from server or other source and show it in editor.js */
 
+    React.useEffect(() => {
+        router.events.on("routeChangeStart", handleRouteChange);
+        return () => {
+            router.events.off("routeChangeStart", handleRouteChange);
+        };
+    }, []);
+    const handleRouteChange = (url) => {
+        let result = window.confirm('Are you sure you want to continue, unsaved data will be lost');
+        if (!result) {
+            // console.error('throwing')
+            // router.replace(router.asPath, undefined, { shallow: true })
+            throw "stop redirect"
+        }
+    };
+
     const handleInstance = (instance) => {
         setEditorInstance(instance)
     }
@@ -56,6 +71,7 @@ function AdminHome({ oldData }) {
 
             <p>{editorInstance && JSON.stringify(editorInstance)}</p>
             <p>{editorData && JSON.stringify(editorData)}</p>
+            <p>{router.asPath}</p>
         </>
     )
 }
