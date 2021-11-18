@@ -1,23 +1,12 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 
-import Blocks from 'editorjs-blocks-react-renderer'
-import imageN from '../components/editorjs-render/image'
-
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
+
+const RenderBlock = dynamic(() => import('../components/editorjs-render/main-render'))
 
 //import styles from '../styles/Home.module.css'
-
-const rendererConfig = { //maybe new component with all this and Blocks and imageN
-    image: {
-        className: "hola",
-        // actionsClassNames: {
-        //     stretched: "image-block--stretched",
-        //     withBorder: "image-block--with-border",
-        //     withBackground: "image-block--with-background",
-        // }
-    }
-}
 
 export default function Home({ data }) {
     return (
@@ -26,14 +15,7 @@ export default function Home({ data }) {
                 <a><button><h3>Go to Editor mode</h3></button></a>
             </Link>
             <br />
-            {data &&
-                <Blocks
-                    data={JSON.parse(data)}
-                    renderers={{
-                        image: imageN
-                    }}
-                    config={rendererConfig}
-                />}
+            {data && <RenderBlock data={data} />}
             {data && <p>{data.toString()}</p>}
 
         </div>
