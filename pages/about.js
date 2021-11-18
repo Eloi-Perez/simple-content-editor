@@ -21,8 +21,8 @@ const rendererConfig = { //create new component with all this and Blocks and ima
 export default function About({ data }) {
     return (
         <div>
-            <Link href="/admin">
-                <a><button><h3>Admin Mode</h3></button></a>
+            <Link href="/edit/about">
+                <a><button><h3>Go to Editor mode</h3></button></a>
             </Link>
             <br />
             {data &&

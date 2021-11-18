@@ -47,8 +47,9 @@ function AdminHome({ oldData }) {
 
     return (
         <>
-            <h1>Editor mode</h1>
             <button onClick={saveArticle}>Save</button>
+            <br/>
+            <h1>Editor mode</h1>
             {CustomEditor && <CustomEditor handleInstance={handleInstance} data={editorData} />}
             {/* {CustomEditor && <CustomEditor handleInstance={handleInstance}
                 data={editorData} imageArray={imageArray} />} */}
