@@ -27,7 +27,7 @@ function AdminHome({ oldData }) {
         if (!result) {
             // console.error('throwing')
             // router.replace(router.asPath, undefined, { shallow: true })
-            throw "stop redirect"
+            throw 'stop redirect'
         }
     };
 
