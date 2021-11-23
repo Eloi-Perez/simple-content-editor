@@ -38,13 +38,16 @@ The content of these files should be in a readable format by editor.js, this is 
     "version": "2.22.2"
 }`
 
+Then install all dependencies:
+
+```bash
+npm install
+```
 
 Now you can run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
