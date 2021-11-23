@@ -1,4 +1,6 @@
 import { useRouter } from 'next/router'
+import { withIronSessionSsr } from 'iron-session/next'
+import { ironOptions } from '../../lib/iron-config'
 import React, { useState, useRef, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { promises as fs } from 'fs'
@@ -23,8 +25,8 @@ function AdminHome({ oldData }) {
         };
     }, []);
     const handleRouteChange = (url) => {
-        let result = window.confirm('Are you sure you want to continue, unsaved data will be lost' + '\n' + 'OK to continue, Cancel to stay on this page');
-        if (!result) {
+        let confirm = window.confirm('Are you sure you want to continue? Unsaved data will be lost' + '\n' + 'OK to continue, Cancel to stay on this page');
+        if (!confirm) {
             // console.error('throwing')
             // router.replace(router.asPath, undefined, { shallow: true })
             throw 'stop redirect'
@@ -60,10 +62,26 @@ function AdminHome({ oldData }) {
         })
     }
 
+    const logOut = async () => {
+        let confirm = window.confirm('Are you sure you want to log out? Unsaved data will be lost' + '\n' + 'OK to continue, Cancel to stay on this page');
+        if (confirm) {
+            try {
+                const call = await fetch('/api/logout')
+                const response = await call.json()
+                if (response.loggedOff) {
+                    // router.push('/')
+                    window.location.href = '/'
+                }
+            } catch (error) {
+                console.error('An unexpected error happened:', error)
+            }
+        }
+    }
+
     return (
         <>
             <button onClick={saveArticle}>Save</button>
-            <br/>
+            <br />
             <h1>Editor mode</h1>
             {CustomEditor && <CustomEditor handleInstance={handleInstance} data={editorData} />}
             {/* {CustomEditor && <CustomEditor handleInstance={handleInstance}
@@ -72,25 +90,42 @@ function AdminHome({ oldData }) {
             <p>{editorInstance && JSON.stringify(editorInstance)}</p>
             <p>{editorData && JSON.stringify(editorData)}</p>
             <p>{router.asPath}</p>
+            <button onClick={logOut}>Log Out</button>
         </>
     )
 }
 
-export async function getServerSideProps(context) {
-    try {
-        const fileName = context.params.editor + '.json'
-        const route = path.join(process.cwd(), 'data', fileName)
-        const oldData = await fs.readFile(route, 'utf8')
-        return {
-            props: { oldData },
+export const getServerSideProps = withIronSessionSsr(
+    async function getServerSideProps(context) {
+        const user = await context.req.session.user
+        if (!user) { //(user.admin !== true)
+            return {
+                redirect: {
+                    destination: '/login',
+                    permanent: false,
+                },
+            }
         }
-    } catch (err) {
-        console.error(err);
-        return {
-            notFound: true,
+        try {
+            const fileName = context.params.editor + '.json'
+            const route = path.join(process.cwd(), 'data', fileName)
+            const oldData = await fs.readFile(route, 'utf8')
+            return {
+                props: {
+                    oldData,
+                    // user: context.req.session.user, //if I need user-name in page
+                },
+
+            }
+        } catch (err) {
+            console.error(err);
+            return {
+                notFound: true,
+            }
         }
-    }
-}
+    },
+    ironOptions,
+)
 
 
 export default AdminHome
