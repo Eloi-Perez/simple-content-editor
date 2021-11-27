@@ -5,7 +5,7 @@ import Table from '@editorjs/table'
 //import Warning from '@editorjs/warning'
 import Code from '@editorjs/code'
 //import LinkTool from '@editorjs/link'
-import Image from '@editorjs/image'
+import ImageTool from '@editorjs/image'
 //import Raw from '@editorjs/raw'
 import Header1 from '@editorjs/header'
 import Quote from '@editorjs/quote'
@@ -24,7 +24,34 @@ export const EDITOR_JS_TOOLS = {
     //warning: Warning,
     code: Code,
     //linkTool: LinkTool,
-    image: Image,
+    image: //Image,
+    {
+        class: ImageTool,
+        config: {
+            uploader: {
+                async uploadByFile(file) {
+                    const formData = new FormData();
+                    formData.append("images", file);
+                    // send image to server
+                    const res = await fetch('/api/image', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    const result = await res.json()
+                    // get the uploaded image path, pushing image path to image array
+                    // await imageArray.push(result.url)
+                    return {
+                        success: 1,
+                        file: {
+                            url: result.url,
+                            width: result.width,
+                            height: result.height
+                        }
+                    }
+                }
+            }
+        }
+    },
     //raw: Raw,
     header: Header1,
     quote: Quote,
