@@ -34,5 +34,5 @@ yarn-error.log*
 .vercel
 
 # personal site content
-/data/*
-/public/images/*
+# /data/*
+# /public/images/*
