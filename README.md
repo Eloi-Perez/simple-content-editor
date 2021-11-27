@@ -20,7 +20,7 @@ First, you need to create some files not included in this repository.
   IRON_SECRET=32_characters_long_private_key_to_encrypt_cookies
   
 
-* Also in root, create 'data' folder with a .json file for each of the editable pages included (atm it will be about.json and index.json)
+* Now in the 'data' folder, add a .json file for each of the editable pages included (atm it will be about.json and index.json)
 The content of these files should be in a readable format by editor.js, this is an example you can use to bootstrap your application:
 
   `{
