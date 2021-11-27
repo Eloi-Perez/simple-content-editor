@@ -2,6 +2,11 @@ import { Buffer } from 'buffer'
 import { writeFile } from 'fs'
 import path from 'path'
 
+export const config = {
+    api: {
+        externalResolver: true,
+    },
+}
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
