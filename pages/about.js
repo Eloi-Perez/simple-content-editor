@@ -14,8 +14,6 @@ export default function About({ data }) {
             </Link>
             <br />
             {data && <RenderBlock data={data} />}
-            {data && <p>{data.toString()}</p>}
-
         </div>
     )
 }
