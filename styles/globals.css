@@ -1,3 +1,7 @@
+:root {
+  --color-red: rgb(214, 45, 45);
+}
+
 html,
 body {
   padding: 0;
