@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic'
 
 const RenderBlock = dynamic(() => import('../components/editorjs-render/main-render'))
 
-//import styles from '../styles/Home.module.css'
+//import styles from '../styles/home.module.css'
 
 export default function Home({ data }) {
     return (
