@@ -1,27 +1,46 @@
 :root {
-  --primary-color: rgb(211, 98, 98);
-  --background-color: rgb(197, 224, 235);
+    --primary-color: rgb(211, 98, 98);
+    --background-color: rgb(197, 224, 235);
 }
 
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-    Helvetica Neue, sans-serif;
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+        Helvetica Neue, sans-serif;
 }
 
 html {
-  /*to avoid scroll bar changing total width*/
-  width: 100vw;
-  overflow-x: hidden;
+    /*to avoid scroll bar changing total width*/
+    width: 100vw;
+    overflow-x: hidden;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/*Editor.js Render*/
+.code-editorjs {
+}
+.delimiter-editorjs {
+}
+.embed-editorjs {
+}
+.header-editorjs {
+}
+.paragraph-editorjs {
+    color: rgb(56, 56, 56);
+}
+.image-editorjs {
+}
+.quote-editorjs {
+}
+.table-editorjs {
 }

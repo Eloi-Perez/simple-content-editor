@@ -2,13 +2,29 @@ import Blocks from 'editorjs-blocks-react-renderer'
 import imageN from './image'
 
 const rendererConfig = {
+    code: {
+        className: "code-editorjs"
+    },
+    delimiter: {
+        className: "delimiter-editorjs"
+    },
+    embed: {
+        className: "embed-editorjs"
+    },
+    header: {
+        className: "header-editorjs"
+    },
+    paragraph: {
+        className: "paragraph-editorjs"
+    },
     image: {
-        className: "image-editorjs",
-        // actionsClassNames: {
-        //     stretched: "image-block--stretched",
-        //     withBorder: "image-block--with-border",
-        //     withBackground: "image-block--with-background",
-        // }
+        className: "image-editorjs"
+    },
+    quote: {
+        className: "quote-editorjs"
+    },
+    table: {
+        className: "table-editorjs"
     }
 }
 
@@ -17,7 +33,7 @@ export default function RenderBlock({ data }) {
         <>
             {data &&
                 <Blocks
-                data={JSON.parse(data)}
+                    data={JSON.parse(data)}
                     renderers={{
                         image: imageN
                     }}
