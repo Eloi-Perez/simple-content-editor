@@ -8,7 +8,6 @@
 
 /* ActiveLink component */
 .link {
-    /* color: var(--color-red); */
     float: left;
     text-align: center;
     padding: 14px 16px;
@@ -17,12 +16,12 @@
 }
 
 .link:hover {
-    background-color: #ddd;
+    background-color: var(--primary-color);
     color: black;
 }
 
 .active {
-    /* background-color: #04aa6d; */
+    background-color: var(--background-color);
     text-decoration: line-through;
 }
 
