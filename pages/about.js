@@ -11,10 +11,6 @@ import s from '../styles/pages.module.css'
 export default function About({ data }) {
     return (
         <div className={s.root}>
-            <Link href="/edit/about">
-                <a><button><h3>Go to Editor mode</h3></button></a>
-            </Link>
-            <br />
             {data && <RenderBlock data={data} />}
         </div>
     )
