@@ -7,7 +7,7 @@ export default function ActiveLink({ ...props }) {
     const router = useRouter()
     const index = () => {
         let path = router.pathname
-        if (path === '/') { path = '/index'}
+        if (path === '/') { path = '/index' }
         return path
     }
     const href = `/edit${index()}`
@@ -16,7 +16,7 @@ export default function ActiveLink({ ...props }) {
         router.pathname !== '/edit/[editor]' &&
         <Link href={href} {...props}>
             <a className={`${s.link} ${s.linkeditor}`} >
-                    <h2>Editor Mode</h2>
+                <h2>Editor Mode</h2>
             </a>
         </Link>
     )

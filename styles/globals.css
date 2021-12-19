@@ -10,7 +10,8 @@ body {
     Helvetica Neue, sans-serif;
 }
 
-html { /*to avoid scroll bar changing total width*/
+html {
+  /*to avoid scroll bar changing total width*/
   width: 100vw;
   overflow-x: hidden;
 }
