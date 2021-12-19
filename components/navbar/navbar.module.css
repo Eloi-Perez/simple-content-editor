@@ -1,12 +1,10 @@
 .root {
-}
-
-.navbar {
     overflow: hidden;
 }
 
-.item {
-}
+/* .item:last-child {
+    float: right;
+} */
 
 
 /* ActiveLink component */
@@ -27,4 +25,9 @@
 .active {
     /* background-color: #04aa6d; */
     text-decoration: line-through;
+}
+
+/* EditorLink component */
+.linkeditor {
+    float: right;
 }

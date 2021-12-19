@@ -1,0 +1,12 @@
+.root {
+  min-height: 100vh; /* for Footer to bottom*/
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1; /* for Footer to bottom*/
+}

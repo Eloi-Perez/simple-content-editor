@@ -1,13 +1,18 @@
 :root {
-  --color-red: rgb(214, 45, 45);
+  --primary-color: rgb(214, 45, 45);
 }
 
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
+}
+
+html { /*to avoid scroll bar changing total width*/
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 a {
