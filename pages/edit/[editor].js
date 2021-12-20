@@ -6,6 +6,8 @@ import dynamic from 'next/dynamic'
 import { promises as fs } from 'fs'
 import path from 'path'
 
+import s from '../../styles/editor.module.css'
+
 let CustomEditor = dynamic(() => import('../../components/editorjs-create/custom-editor'), {
     ssr: false
 })
@@ -128,7 +130,7 @@ function AdminHome({ oldData }) {
 
     return (
         <>
-            <button onClick={saveArticle}>Save</button>
+            <button className={s.save} onClick={saveArticle}>Save</button>
             {/* <button onClick={() => console.log(imageArray)}>Log Array Images</button> */}
             <br />
             <h1>Editor mode</h1>

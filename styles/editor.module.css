@@ -1,0 +1,12 @@
+.save {
+    background: #0066a2;
+    color: white;
+    border-style: none;
+    height: 50px;
+    width: 100px;
+    font-size: large;
+}
+
+.save:hover {
+    background-color: var(--primary-color);
+}
