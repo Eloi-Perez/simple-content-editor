@@ -37,6 +37,7 @@ a {
 }
 .paragraph-editorjs {
     color: rgb(56, 56, 56);
+    text-align: justify;
 }
 .image-editorjs {
 }
