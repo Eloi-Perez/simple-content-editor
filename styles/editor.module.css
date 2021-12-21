@@ -1,5 +1,5 @@
 .save {
-    background: #0066a2;
+    background-color: #0066a2;
     color: white;
     border-style: none;
     height: 50px;
@@ -9,4 +9,14 @@
 
 .save:hover {
     background-color: var(--primary-color);
+}
+
+
+.saved {
+    background-color: var(--primary-color);
+    color: white;
+    border-style: none;
+    height: 50px;
+    width: 100px;
+    font-size: large;
 }

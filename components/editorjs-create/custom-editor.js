@@ -17,7 +17,7 @@ import Delimiter from '@editorjs/delimiter'
 // import InlineCode from '@editorjs/inline-code'
 import SimpleImage from '@editorjs/simple-image'
 
-const CustomEditor = ({ handleInstance, data, imageArray }) => {
+const CustomEditor = ({ handleInstance, data, imageArray, ...props }) => {
     const EDITOR_JS_TOOLS = {
         // NOTE: Paragraph is default tool. Declare only when you want to change paragraph option.
         // paragraph: Paragraph,
@@ -65,7 +65,7 @@ const CustomEditor = ({ handleInstance, data, imageArray }) => {
         simpleImage: SimpleImage,
     }
     const ReactEditorJS = createReactEditorJS()
-    return <ReactEditorJS onInitialize={(instance) => handleInstance(instance)}
+    return <ReactEditorJS {...props} onInitialize={(instance) => handleInstance(instance)}
         tools={EDITOR_JS_TOOLS} data={data}
         placeholder={`Write from here...`}
     />

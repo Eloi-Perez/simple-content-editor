@@ -19,6 +19,7 @@ function AdminHome({ oldData }) {
     const [imageArray, setImageArray] = useState([]) /* to keep track of uploaded image */
     const [editorInstance, setEditorInstance] = useState({}) /* to get the instance of editor.Js */
     const [editorData, setData] = useState(JSON.parse(oldData)) /* to store editorjs data from server or other source and show it in editor.js */
+    const [saveButton, setSaveButton] = useState('Save')
 
     // Handle route change
     React.useEffect(() => {
@@ -110,6 +111,7 @@ function AdminHome({ oldData }) {
             },
             body: JSON.stringify(data),
         })
+        setSaveButton('SAVED!')
     }
 
     const logOut = async () => {
@@ -128,13 +130,16 @@ function AdminHome({ oldData }) {
         }
     }
 
+    const handleChange = () => {
+        setSaveButton('Save')
+    }
+
     return (
         <>
-            <button className={s.save} onClick={saveArticle}>Save</button>
-            {/* <button onClick={() => console.log(imageArray)}>Log Array Images</button> */}
-            <br />
+            {saveButton === 'Save' && <button className={s.save} onClick={saveArticle}>{saveButton}</button>}
+            {saveButton === 'SAVED!' && <button className={s.saved}>{saveButton}</button>}
             <h1>Editor mode</h1>
-            {CustomEditor && <CustomEditor handleInstance={handleInstance}
+            {CustomEditor && <CustomEditor onChange={handleChange} handleInstance={handleInstance}
                 data={editorData} imageArray={imageArray} />}
 
             <h3>Debuggin Info:</h3>
@@ -142,7 +147,7 @@ function AdminHome({ oldData }) {
             <p>{editorData && JSON.stringify(editorData)}</p>
             <p>{imageArray && JSON.stringify(imageArray)}</p>
             <p>{router.asPath}</p>
-            <button onClick={logOut}>Log Out</button>
+            <button className={s.save} onClick={logOut}>Log Out</button>
         </>
     )
 }
