@@ -1,0 +1,34 @@
+.form {
+margin-top: 1rem;
+}
+.form,
+.form label {
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+}
+.form > span {
+    font-weight: 600;
+}
+.form input {
+    padding: 8px;
+    margin: 0.3rem 0 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+}
+.form input[type="text"] {
+}
+.error {
+    color: rgb(255, 0, 0);
+    margin: 1rem 0 0;
+}
+.form button {
+    background-color: white;
+    border-style: none;
+    height: 50px;
+    font-size: large;
+}
+.form button:hover {
+    background-color: var(--primary-color);
+}

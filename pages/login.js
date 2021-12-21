@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 
+import s from '../styles/login.module.css'
+
 export default function Login() {
     const router = useRouter()
     const [errorMsg, setErrorMsg] = useState('')
@@ -32,7 +34,7 @@ export default function Login() {
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
+            <form className={s.form} onSubmit={handleSubmit}>
                 <label>
                     <span>Username</span>
                     <input type="text" name="username" required />
@@ -42,28 +44,7 @@ export default function Login() {
 
                 <button type="submit">Login</button>
 
-                {errorMsg && <p className="error">{errorMsg}</p>}
-
-                <style jsx>{`
-                    form,
-                    label {
-                    display: flex;
-                    flex-flow: column;
-                    }
-                    label > span {
-                    font-weight: 600;
-                    }
-                    input {
-                    padding: 8px;
-                    margin: 0.3rem 0 1rem;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    }
-                    .error {
-                    color: brown;
-                    margin: 1rem 0 0;
-                    }
-                `}</style>
+                {errorMsg && <p className={s.error}>{errorMsg}</p>}
             </form>
         </div>
     )
