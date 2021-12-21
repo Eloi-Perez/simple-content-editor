@@ -21,6 +21,7 @@
     "@editorjs/simple-image": "^1.4.1",
     "@editorjs/table": "^2.0.1",
     "editorjs-blocks-react-renderer": "^1.2.1",
+    "find-remove": "^4.0.3",
     "formidable": "^2.0.1",
     "image-size": "^1.0.0",
     "iron-session": "^6.0.2",

@@ -4,6 +4,7 @@ import { ironOptions } from '../../lib/iron-config'
 import { Buffer } from 'buffer'
 import { writeFile } from 'fs'
 import path from 'path'
+import findRemoveSync from 'find-remove'
 
 export const config = {
     api: {
@@ -24,6 +25,7 @@ async function handler(req, res) {
                 const fileName = req.body.fileName
                 const data = new Uint8Array(Buffer.from(JSON.stringify(req.body.data)))
                 let pathData = path.resolve(process.cwd() + '/data/') + '/'
+                let pathBackup = path.resolve(pathData, 'backup') + '/'
                 writeFile(pathData + fileName, data, (err) => {
                     if (err) {
                         console.log(err)
@@ -32,8 +34,14 @@ async function handler(req, res) {
                     } else {
                         const miliseconds = Date.parse(new Date())
                         const backup = miliseconds + '.' + fileName
-                        writeFile(pathData + backup, data)
-                        //delete older backup + second backup
+                        writeFile(pathBackup + backup, data)
+                        let resultDel = findRemoveSync(pathBackup, {
+                            age: { seconds: 2592000 }, // 2592000 -> 30 days
+                            extensions: '.json',
+                            limit: 100
+                        })
+                        console.log(resultDel)
+                        //send to second backup?
                         res.status(200).json({ message: 'Saved!' })
                     }
                 });
