@@ -1,5 +1,5 @@
 {
-  "name": "my-next-editorjs",
+  "name": "simple-content-editor",
   "private": true,
   "scripts": {
     "dev": "next dev",
