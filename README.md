@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project where the admin can edit the content of the pages directly in the browser using [Editor.js](https://editorjs.io/)
+# Simple Content Editor
+
+SCE is a [Next.js](https://nextjs.org/) project where the admin can edit the content of the pages directly in the browser using [Editor.js](https://editorjs.io/)
 
 This project uses Static Generation so the HTML is generated at build time and will be reused on each request.
 Also, it will be regenerated with each change of the content.
