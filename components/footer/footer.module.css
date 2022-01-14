@@ -3,3 +3,35 @@
     display: flex;
     justify-content: center;
 }
+
+.container {
+    width: 980px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.login {
+    /* justify-content: flex-end; */
+}
+
+.save {
+    background-color: #0066a2;
+    color: white;
+    border-style: none;
+    height: 50px;
+    width: 100px;
+    font-size: large;
+}
+
+.save:hover {
+    background-color: var(--primary-color);
+}
+
+.saved {
+    background-color: var(--primary-color);
+    color: white;
+    border-style: none;
+    height: 50px;
+    width: 100px;
+    font-size: large;
+}
