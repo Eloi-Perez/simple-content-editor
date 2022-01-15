@@ -8,19 +8,29 @@ const RenderBlock = dynamic(() => import('../components/editorjs-render/main-ren
 
 import s from '../styles/pages.module.css'
 
-export default function About({ data }) {
+export default function About({ arrayFiles }) {
     return (
-        <div className={s.root}>
-            {data && <RenderBlock data={data} />}
-        </div>
+        <>
+            {RenderBlock && arrayFiles && arrayFiles.map((f, i) =>
+                <div key={'RenderBlock ' + i} className={s.root}>
+                    <RenderBlock data={f} />
+                </div>
+            )}
+        </>
     )
 }
 
 export async function getStaticProps() {
-    const route = path.join(process.cwd(), 'data', 'about.json')
-    const data = await fs.readFile(route, 'utf8')
+    const routeFolder = path.join(process.cwd(), 'data', 'about')
+    const arrayFilesNames = await fs.readdir(routeFolder)
+    const promiseArrayFiles = await arrayFilesNames.map(async (f) => {
+        const fileRoute = await path.join(routeFolder, f)
+        const file = await fs.readFile(fileRoute, 'utf8')
+        return file
+    })
+    const arrayFiles = await Promise.all(promiseArrayFiles)
     return {
-        props: { data },
+        props: { arrayFiles },
         revalidate: 10,
     }
 }

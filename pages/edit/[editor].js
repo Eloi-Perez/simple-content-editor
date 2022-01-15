@@ -1,28 +1,23 @@
 import { useRouter } from 'next/router'
 import { withIronSessionSsr } from 'iron-session/next'
 import { ironOptions } from '../../lib/iron-config'
-import React, { useState, useRef, useCallback } from 'react'
+import { useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { promises as fs } from 'fs'
 import path from 'path'
 
 import s from '../../styles/editor.module.css'
 
-let CustomEditor = dynamic(() => import('../../components/editorjs-create/custom-editor'), {
+let ContainerEditor = dynamic(() => import('../../components/editorjs-create/container-editor'), {
     ssr: false
 })
 
-function AdminHome({ oldData }) {
+function AdminHome({ pageName, arrayFiles, arrayFilesNames }) {
     const router = useRouter()
-    const { editor } = router.query
-
-    const [imageArray, setImageArray] = useState([]) /* to keep track of uploaded image */
-    const [editorInstance, setEditorInstance] = useState({}) /* to get the instance of editor.Js */
-    const [editorData, setData] = useState(JSON.parse(oldData)) /* to store editorjs data from server or other source and show it in editor.js */
-    const [saveButton, setSaveButton] = useState('Save')
+    // const { editor } = router.query
 
     // Handle route change
-    React.useEffect(() => {
+    useEffect(() => {
         router.events.on("routeChangeStart", handleRouteChange);
         return () => {
             router.events.off("routeChangeStart", handleRouteChange);
@@ -35,83 +30,6 @@ function AdminHome({ oldData }) {
             // router.replace(router.asPath, undefined, { shallow: true })
             throw 'stop redirect'
         }
-    }
-
-    // Track instance editor.js
-    const handleInstance = (instance) => {
-        setEditorInstance(instance)
-    }
-
-    // Fill array with current images on loading
-    React.useEffect(() => {
-        const data = JSON.parse(oldData)
-        const list = []
-        data.blocks.forEach(block => {
-            if (block.type === 'image') { list.push(block.data.file.url) }
-        })
-        setImageArray(list)
-    }, [])
-
-    function removeImage(img) {
-        const array = imageArray.filter(image => image !== img)
-        setImageArray(array)
-    }
-
-    // Remove unused imges
-    const clearEditorLeftoverImages = async (savedData) => {
-        // Get editor.js images
-        const currentImages = []
-        savedData.blocks.forEach(block => {
-            if (block.type === 'image') { currentImages.push(block.data.file.url) }
-        })
-
-        for (const img of imageArray) {
-            if (!currentImages.includes(img)) {
-                try {
-                    // delete image from backend
-                    const data = { imagePath: img }
-                    const res = await fetch('/api/deleteImage', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data),
-                    })
-                    const result = await res.json()
-                    console.log(JSON.stringify(result))
-                    // remove from array
-                    removeImage(img)
-                } catch (err) {
-                    console.log(err.message)
-                }
-            }
-        }
-    }
-
-    const saveArticle = async (e) => {
-        e.preventDefault()
-
-        /* get the editor.js content and save it to variable */
-        const savedData = await editorInstance.save();
-        setData(savedData)
-
-        const data = {
-            fileName: `${editor}.json`,
-            data: savedData,
-        }
-
-        /* Clear all the unused images from server */
-        await clearEditorLeftoverImages(savedData)
-
-        /* Save to server */
-        fetch('/api/save', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        setSaveButton('SAVED!')
     }
 
     const logOut = async () => {
@@ -130,23 +48,24 @@ function AdminHome({ oldData }) {
         }
     }
 
-    const handleChange = () => {
-        setSaveButton('Save')
-    }
-
     return (
         <>
-            {saveButton === 'Save' && <button className={s.save} onClick={saveArticle}>{saveButton}</button>}
-            {saveButton === 'SAVED!' && <button className={s.saved}>{saveButton}</button>}
             <h1>Editor mode</h1>
-            {CustomEditor && <CustomEditor onChange={handleChange} handleInstance={handleInstance}
-                data={editorData} imageArray={imageArray} />}
+            {ContainerEditor && arrayFiles && arrayFiles.map((f, i) =>
+                <div key={'ContainerEditor ' + i}>
+                    <ContainerEditor pageName={pageName} fileName={arrayFilesNames[i]} oldData={f} />
+                </div>
+            )}
 
             <h3>Debuggin Info:</h3>
-            <p>{editorInstance && JSON.stringify(editorInstance)}</p>
+            {arrayFiles && arrayFiles.map((f, i) => (<p key={'rawData ' + i}>{f}</p>))}
+            {/* <p>{editorInstance && JSON.stringify(editorInstance)}</p>
             <p>{editorData && JSON.stringify(editorData)}</p>
-            <p>{imageArray && JSON.stringify(imageArray)}</p>
+            <p>{imageArray && JSON.stringify(imageArray)}</p> */}
             <p>{router.asPath}</p>
+
+
+
             <button className={s.save} onClick={logOut}>Log Out</button>
         </>
     )
@@ -164,12 +83,22 @@ export const getServerSideProps = withIronSessionSsr(
             }
         }
         try {
-            const fileName = context.params.editor + '.json'
-            const route = path.join(process.cwd(), 'data', fileName)
-            const oldData = await fs.readFile(route, 'utf8')
+            const pageName = context.params.editor
+
+            const routeFolder = path.join(process.cwd(), 'data', pageName)
+            const arrayFilesNames = await fs.readdir(routeFolder) // [ 'index1.json', 'index2.json' ]
+            const promiseArrayFiles = await arrayFilesNames.map(async (f) => {
+                const fileRoute = await path.join(routeFolder, f)
+                const file = await fs.readFile(fileRoute, 'utf8')
+                return file
+            })
+            const arrayFiles = await Promise.all(promiseArrayFiles)
+
             return {
                 props: {
-                    oldData,
+                    pageName,
+                    arrayFiles,
+                    arrayFilesNames,
                     // user: context.req.session.user, //if I need user-name in page
                 },
 
