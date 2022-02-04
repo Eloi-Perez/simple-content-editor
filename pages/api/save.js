@@ -22,11 +22,12 @@ async function handler(req, res) {
             res.status(401).json({ authorized: false })
         } else { // Authorized
             try {
+                const folderName = req.body.pageName
                 const fileName = req.body.fileName
                 const data = new Uint8Array(Buffer.from(JSON.stringify(req.body.data)))
-                let pathData = path.resolve(process.cwd() + '/data/') + '/'
-                let pathBackup = path.resolve(pathData, 'backup') + '/'
-                writeFile(pathData + fileName, data, (err) => {
+                let pathData = path.join(process.cwd(), 'data', folderName)
+                let pathBackup = path.join(process.cwd(), 'data', 'backup')
+                writeFile(pathData + '/' + fileName, data, (err) => {
                     if (err) {
                         console.log(err)
                         res.status(500).json({ error: 'Wrong route', path: pathData })
@@ -34,7 +35,7 @@ async function handler(req, res) {
                     } else {
                         const miliseconds = Date.parse(new Date())
                         const backup = miliseconds + '.' + fileName
-                        writeFile(pathBackup + backup, data)
+                        writeFile(pathBackup + '/' + backup, data)
                         let resultDel = findRemoveSync(pathBackup, {
                             age: { seconds: 2592000 }, // 2592000 -> 30 days
                             extensions: '.json',
