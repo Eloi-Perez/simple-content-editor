@@ -1,3 +1,6 @@
+import { withIronSessionApiRoute } from 'iron-session/next'
+import { ironOptions } from '../../lib/iron-config'
+
 import path from 'path'
 import formidable from 'formidable'
 import sizeOf from 'image-size'
@@ -21,29 +24,35 @@ const options = {
     },
 }
 
-export default function handler(req, res) {
-    const form = new formidable.IncomingForm(options)
+export default withIronSessionApiRoute(handler, ironOptions)
 
-    form.parse(req, async (err, fields, files) => {
-        if (err) {
-            console.log("Error parsing the files")
-            return res.status(400).json({
-                status: "Fail",
-                message: "There was an error parsing the files",
-                error: err,
-            })
-        } else {
-            try {
-                const finalURL = '/images/' + path.basename(files.images.filepath)
-                const dimensions = sizeOf(files.images.filepath)
-                return res.status(200).json({
-                    url: finalURL,
-                    width: dimensions.width,
-                    height: dimensions.height
+async function handler(req, res) {
+    const user = await req.session.user
+    if (!user) {
+        res.status(401).json({ authorized: false })
+    } else {
+        const form = new formidable.IncomingForm(options)
+        form.parse(req, async (err, fields, files) => {
+            if (err) {
+                console.log("Error parsing the files")
+                return res.status(400).json({
+                    status: "Fail",
+                    message: "There was an error parsing the files",
+                    error: err,
                 })
-            } catch (e) {
-                res.status(500).json({ error: e })
+            } else {
+                try {
+                    const finalURL = '/images/' + path.basename(files.images.filepath)
+                    const dimensions = sizeOf(files.images.filepath)
+                    return res.status(200).json({
+                        url: finalURL,
+                        width: dimensions.width,
+                        height: dimensions.height
+                    })
+                } catch (e) {
+                    res.status(500).json({ error: e })
+                }
             }
-        }
-    })
+        })
+    }
 }
